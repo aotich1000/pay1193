@@ -207,14 +207,5 @@ namespace Pay1193.Controllers
             await _employeeService.Delete(model.Id);
             return RedirectToAction("Index");
         }
-        #region API
-
-        public IActionResult Getall()
-        {
-            var employeeList = _employeeService.GetAll();
-            return Json(new {data = employeeList});
-        }
-
-        #endregion
     }
 }

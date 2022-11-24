@@ -31,43 +31,37 @@ namespace Pay1193.Services.Implement
             return contractualEarnings;
         }
 
-        public Task CreateAsync(PaymentRecord paymentRecord)
+        public async Task CreateAsync(PaymentRecord paymentRecord)
         {
-            throw new NotImplementedException();
+            await _context.PaymentRecords.AddAsync(paymentRecord);
+            await _context.SaveChangesAsync();
         }
 
         public IEnumerable<PaymentRecord> GetAll()
-        {
-            throw new NotImplementedException();
-        }
+        => _context.PaymentRecords.OrderBy(p => p.EmployeeId);
 
         public PaymentRecord GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
+         =>
+            _context.PaymentRecords.Where(pay => pay.Id == id).FirstOrDefault();
 
         public TaxYear GetTaxYearById(int id)
-        {
-            throw new NotImplementedException();
-        }
+        => _context.TaxYears.Where(year => year.Id == id).FirstOrDefault();
 
-        public decimal NetPay(decimal totalEarnings, decimal totalDeduction)
-        {
-            return totalEarnings - totalDeduction;
-        }
+        public decimal NetPay(decimal totalEarnings, decimal totalDeductions)
+        
+            => totalEarnings - totalDeductions;
+        
 
-        public decimal OvertimeEarnings(decimal overtimeRate, decimal overTimeHours)
-        {
-            return overTimeHours * overtimeRate;
-        }
-        //update 22/11
+        public decimal OvertimeEarnings(decimal overtimeEarnings, decimal contractualEarnings)
+         => overtimeEarnings * contractualEarnings;
+
         public decimal OverTimeHours(decimal hoursWorked, decimal contractualHours)
         {
-            if(hoursWorked <= contractualHours)
+            if (hoursWorked <= contractualHours)
             {
                 overTimeHours = 0.00m;
             }
-            else
+            else if (hoursWorked > contractualHours)
             {
                 overTimeHours = hoursWorked - contractualHours;
             }
@@ -75,13 +69,24 @@ namespace Pay1193.Services.Implement
         }
 
         public decimal OvertimeRate(decimal hourlyRate)
-        {
-            return hourlyRate * 1.5m;
-        }
+         => hourlyRate * 1.5m;
 
         public decimal TotalDeduction(decimal tax, decimal nic, decimal studentLoanRepayment, decimal unionFees)
+        => tax + nic + studentLoanRepayment + unionFees;
+
+        public dynamic GetAllTaxYears()
         {
-            return tax + nic + studentLoanRepayment + unionFees;
+            throw new NotImplementedException();
+        }
+
+        public decimal EarningDeduction(decimal overtimeEarnings, object contractualEarnings)
+        {
+            throw new NotImplementedException();
+        }
+
+        public decimal TotalDeduction(decimal tax, decimal nic, decimal studentLoanRepayment, object unionFee)
+        {
+            throw new NotImplementedException();
         }
     }
 }

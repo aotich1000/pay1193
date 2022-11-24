@@ -16,8 +16,8 @@ namespace Pay1193.Entity
         public int EmployeeId { get; set; }
         public Employee Employee { get; set; }
 
-        public DateTime DatePay { get; set; }
-        public DateTime MonthPay { get; set; }
+        
+        public string PayMonth { get; set; }
         [ForeignKey("TaxYear")]
         public int TaxYearId { get; set; }
         public TaxYear TaxYear { get; set; }
@@ -37,6 +37,7 @@ namespace Pay1193.Entity
         public decimal OvertimeEarnings { get; set; }
         [Column(TypeName = "money")]
         public decimal NiC { get; set; }
+        public decimal NIC { get; set; }
         [Column(TypeName = "money")]
         public decimal Tax { get; set; }
         [Column(TypeName = "money")]
@@ -46,8 +47,15 @@ namespace Pay1193.Entity
         [Column(TypeName = "money")]
         public decimal TotalEarnings { get; set; }
         [Column(TypeName = "money")]
-        public decimal EarningDeduction { get; set; }
+        public decimal TotalDeduction { get; set; }
         [Column(TypeName = "money")]
         public decimal NetPayment { get; set; }
+        public object FullName { get; set; }
+        public string NiNo { get; set; }
+        public object HoursWorked { get; set; }
+        
+        public DateTime PayDate { get; set; }
+
+        
     }
 }

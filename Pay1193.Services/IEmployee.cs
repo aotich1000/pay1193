@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using Pay1193.Entity;
+﻿using Pay1193.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +17,8 @@ namespace Pay1193.Services
         IEnumerable<Employee> GetAll();
         decimal UnionFee(int id);
         decimal StudentLoanRepaymentAmount(int id, decimal totalAmount);
-        //update 22/11
-        IEnumerable<SelectListItem> GetAllEmployeesForPayroll();
+        dynamic GetAllEmployeeForPayroll();
+        object UnionFees(int employeeId);
+        dynamic GetAllEmployeesForPayroll();
     }
 }

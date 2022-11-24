@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Pay1193.Entity;
 using Pay1193.Persistence;
 using System;
@@ -13,7 +12,6 @@ namespace Pay1193.Services.Implement
     public class EmployeeService : IEmployee
     {
         private readonly ApplicationDbContext _context;
-        //update 22/11
         private decimal studentLoanAmount;
         public EmployeeService(ApplicationDbContext context)
         {
@@ -44,55 +42,57 @@ namespace Pay1193.Services.Implement
         }
 
        
-        //update 22/11
+
         public decimal StudentLoanRepaymentAmount(int id, decimal totalAmount)
         {
             var employee = GetById(id);
-            if (employee.StudentLoan == StudentLoan.Yes && totalAmount > 1750 && totalAmount < 2000)
+            if (employee.StudentLoan == StudentLoan.Yes && totalAmount > 1577)
             {
-                studentLoanAmount = 15m;
-            }
-            else if (employee.StudentLoan == StudentLoan.Yes && totalAmount >= 2000 && totalAmount < 2250)
-            {
-                studentLoanAmount = 38m;
-            }
-            else if (employee.StudentLoan == StudentLoan.Yes && totalAmount >= 2250 && totalAmount < 2500)
-            {
-                studentLoanAmount = 60m;
-            }
-            else if (employee.StudentLoan == StudentLoan.Yes && totalAmount >= 2500)
-            {
-                studentLoanAmount = 83m;
+                studentLoanAmount = (totalAmount - 1577) * 0.09m;
             }
             else
             {
-                studentLoanAmount = 0m;
+                studentLoanAmount = 0;
             }
             return studentLoanAmount;
         }
-        //update 22/11
+
         public decimal UnionFee(int id)
         {
             var employee = GetById(id);
-            var fee = employee.UnionMember == UnionMember.Yes ? 10m : 0m;
+            var fee = employee.UnionMember == UnionMember.Yes ? 10m : 0;
             return fee;
         }
 
-        public IEnumerable<SelectListItem> GetAllEmployeesForPayroll()
+        public async Task UpdateAsync(Employee employee)
         {
-            return GetAll().Select(emp => new SelectListItem()
-            {
-                Text = emp.FullName,
-                Value = emp.Id.ToString()
-            });
+            _context.Update(employee);
+            await _context.SaveChangesAsync();
         }
 
-        public Task UpdateAsync(Employee employee)
+        public async Task UpdateAsync(int id)
+        {
+            var employee = GetById(id);
+            _context.Update(employee);
+            await _context.SaveChangesAsync();
+        }
+
+        public Task UpdateById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task UpdateById(int id)
+        public dynamic GetAllEmployeeForPayroll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public object UnionFees(int employeeId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public dynamic GetAllEmployeesForPayroll()
         {
             throw new NotImplementedException();
         }
